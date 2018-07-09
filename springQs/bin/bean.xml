@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置资源：把对象的创建交给spring来管理-->
+    <bean id="person" class="com.wangyue.service.Person">
+    	<property name="axe" ref="axe"></property>
+    </bean>
+    
+    <bean id="axe" class="com.wangyue.service.Axe"></bean>
+    <bean id="win" class="javax.swing.JFrame"></bean>
+    <bean id="date" class="java.util.Date"></bean>
+
+</beans>
