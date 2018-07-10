@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置资源：把对象的创建交给spring来管理-->
+    <bean id="chinese" class="com.wangyue.service.impl.Chinese">
+    	<!-- 驱动spring调用Chinese带一个参数的构造器来创建对象 -->
+    	<constructor-arg ref="steelAxe"></constructor-arg>
+    </bean>
+    
+    <bean id="stoneAxe" class="com.wangyue.service.impl.StoneAxe"></bean>
+	<bean id="steelAxe" class="com.wangyue.service.impl.SteelAxe"></bean>
+</beans>
