@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        				http://www.springframework.org/schema/beans/spring-beans.xsd
+        				http://www.springframework.org/schema/aop 
+        				http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<bean id="customerService" class="com.wangyue.service.impl.CustomerServiceImpl"></bean>
+	
+	<!-- 基于xml的AOP配置步骤 -->
+	<!--把通知类交给spring来管理 -->
+	<bean id="logger" class="com.wangyue.utils.Logger"></bean>
+	<!-- AOP的配置 -->
+	<aop:config>
+		<!--配置切面。-->
+		<aop:pointcut expression="execution(* com.wangyue.service.impl.*.*(..))" id="p1"/>
+		<aop:aspect id="logAdvice" ref="logger">
+			<!-- 配置前置通知：永远在切入点方法执行之前执行  
+			<aop:before method="beforePrintLog" pointcut-ref="p1" />-->
+			<!-- 配置后置通知：切入点方法正常执行之后执行 
+			<aop:after-returning method="afterReturningPrintLog" pointcut-ref="p1"/>-->
+			<!-- 配置异常通知：切入点方法执行产生异常之后执行。它和后置通知永远只能执行一个 
+			<aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="p1"/>-->
+			<!-- 配置最终通知：无论切入点方法是否正常执行，它都会在其后面执行 
+			<aop:after method="afterPrintLog" pointcut-ref="p1"/>-->
+			
+			<!-- 环绕通知 -->
+			<aop:around method="aroundPrintLog" pointcut-ref="p1"/>
+		</aop:aspect>
+	</aop:config>
+	
+  
+
+</beans>
