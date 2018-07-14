@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        				http://www.springframework.org/schema/beans/spring-beans.xsd
+        				http://www.springframework.org/schema/aop 
+        				http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<bean id="customerService" class="com.wangyue.service.impl.CustomerServiceImpl"></bean>
+	
+	<!-- 基于xml的AOP配置步骤 -->
+	<!-- 第一步：把通知类交给spring来管理 -->
+	<bean id="logger" class="com.wangyue.utils.Logger"></bean>
+	
+	<!-- 第二步：导入AOP名称空间，并且使用aop:config开始AOP的配置 -->
+	<aop:config>
+		<!-- 第三步：使用aop:aspect配置切面。id属性用于给切面提供一个唯一标识。ref属性用于引用通知bean的id -->
+		
+		<aop:pointcut expression="execution(* com.wangyue.service.impl.*.*(..))" id="p1"/>
+		<aop:aspect id="logAdvice" ref="logger">
+			<!-- 第四步：配置通知类的类型，指定增强的方法何时执行。
+						method属性用于指定增强的方法名称 
+						pointcut属性用于指定切入点表达式-->
+						<!-- 切入点表达式
+								关键字：execution(表达式)
+								表达式写法：
+									访问修饰符 返回值 包名.类名.方法名(参数列表)
+								 -->
+			<!-- 全匹配方式 
+			<aop:before method="printLog" 
+			pointcut="execution(public void com.wangyue.service.impl.CustomerServiceImpl.saveCustomer())"/>
+			-->	
+			<!-- 全通配方式 -->
+			<aop:before method="printLog" pointcut-ref="p1" />
+		</aop:aspect>
+	</aop:config>
+	
+  
+
+</beans>
