@@ -1,4 +1,4 @@
-package com.wangyuetest.dao;
+package com.wangyue.test;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

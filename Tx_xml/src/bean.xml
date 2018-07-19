@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        				http://www.springframework.org/schema/beans/spring-beans.xsd
+        				http://www.springframework.org/schema/aop 
+        				http://www.springframework.org/schema/aop/spring-aop.xsd
+        				http://www.springframework.org/schema/tx 
+        				http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<!-- 配置service -->
+	<bean id="accountService" class="com.wangyue.service.impl.AccountServiceImpl">
+		<property name="accountDao" ref="accountDao"></property>
+	</bean>
+	
+	<!-- 配置dao -->
+	<bean id="accountDao" class="com.wangyue.dao.impl.AccountDaoImpl">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/jdbctemplate"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean>
+
+	
+	<!-- spring基于xml的声明式事务控制 -->
+	<!-- 第一步：配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 注入数据源 -->
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 第二步：配置事务的通知 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<!-- 第四步：配置事务的属性 -->
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" read-only="false" />
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+		</tx:attributes>
+	</tx:advice>
+	<!-- 第三步:配置aop
+		要配置的是：切入点表达式 
+				通知和切入点表达式的关联
+	 -->
+	 <aop:config>
+	 	<!-- 切入点表达式 -->
+	 	<aop:pointcut expression="com.wangyue.service.impl.*.*(..)" id="pt1"/>
+	 	<!-- 通知和切入点表达式的关联 -->
+	 	<aop:advisor advice-ref="txAdvice" pointcut-ref="pt1"/>
+	 </aop:config>
+
+</beans>
