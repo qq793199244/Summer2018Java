@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 在实体类所在的包下，创建一个xml文件。该文件建议名称：实体类名称.hbm.xml
+导入dtd约束 -->
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping package="com.wangyue.domain">
+	<class name="SysUser" table="sys_user">
+		<id name="userId" column="user_id">
+			<generator class="identity"></generator>
+		</id>
+		<property name="userName" column="user_name"></property>
+		<property name="userPassword" column="user_password"></property>
+		<property name="userState" column="user_state"></property>
+		<!-- 多对多关系映射
+				涉及的标签set：
+					作用：用于映射set集合属性
+					属性：
+						name：指定集合名称
+						table:指定的是中间表的名称
+				key：
+					作用：用于映射外键字段
+					属性：
+						column：指定的是当前实体在中间表的外键字段名称
+				many-to-many：用于映射多对多关系	
+					属性：
+						column：对方在中间表的外键字段名称
+						class：对方实体类名称
+		 -->
+		 <set name="roles" table="user_role_ref">
+		 	<key column="user_id"></key>
+		 	<many-to-many class="SysRole" column="role_id"></many-to-many>
+		 </set>
+	</class>    
+</hibernate-mapping>
